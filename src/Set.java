@@ -1,26 +1,19 @@
 import java.util.Iterator;
 
 public class Set<P> implements Iterable<P> {
-	private ListIterable<P> iterable;
+	private LinkedList<P> list = new LinkedList<P>();
 
-	public Set() {
-		this(new LinkedList<P>());
-	}
-
-	Set(ListIterable<P> iterable) {
-		this.iterable = iterable;
-	}
-
-	public void insert(P element) {
-		if(contains(element)) {
-			return;
+	public boolean insert(P element) {
+		if (contains(element)) {
+			return false;
 		}
 
-		iterable.iterator().insert(element);
+		list.iterator().insert(element);
+		return true;
 	}
-	
+
 	public boolean contains(P element) {
-		for (P c : iterable) {
+		for (P c : list) {
 			if (c == element) {
 				return true;
 			}
@@ -30,6 +23,22 @@ public class Set<P> implements Iterable<P> {
 
 	@Override
 	public Iterator<P> iterator() {
-		return iterable.iterator();
+		return list.iterator();
+	}
+
+	public static class OrderedSet<P extends Shorter<P>> extends Set<P> {
+
+		@Override
+		public boolean insert(P element) {
+			if (contains(element)) {
+				return false;
+			}
+
+			ListIterator<P> iter = super.list.iterator();
+			while (iter.hasNext() && element.shorter(iter.next())) {
+			}
+			iter.insert(element);
+			return true;
+		}
 	}
 }

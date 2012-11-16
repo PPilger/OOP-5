@@ -1,70 +1,65 @@
 import java.util.Iterator;
 
-public class OrderedMap<K extends Shorter<K>, O> extends OrderedSet<K>
-		implements ListIterable<K> {
-	private ListIterable<Map<K, O>> iterable;
-
-	public OrderedMap() {
-		this(new LinkedList<Map<K, O>>());
-	}
-
-	private OrderedMap(final ListIterable<Map<K, O>> iterable) {
-		super(new ListIterable<K>() {
-
-			@Override
-			public ListIterator<K> iterator() {
-				return new MapIterator<K, O>(iterable);
-			}
-		});
-
-		this.iterable = iterable;
-	}
+public class OrderedMap<P extends Shorter<P>, O> extends Set.OrderedSet<P> {
+	private LinkedList<Map> list;
 
 	@Override
-	public MapIterator<K, O> iterator() {
-		return new MapIterator<K, O>(iterable);
+	public MapIterator<P, O> iterator() {
+		final Iterator<P> iter = super.iterator();
+		return new MapIterator<P, O>() {
+			private P current = null;
+			
+			@Override
+			public boolean hasNext() {
+				return iter.hasNext();
+			}
+
+			@Override
+			public P next() {
+				current = iter.next();
+				return current;
+			}
+
+			@Override
+			public void remove() {
+				Iterator<Map> mapIter = list.iterator();
+				
+				while(mapIter.hasNext()) {
+					if(mapIter.next().key == current) {
+						mapIter.remove();
+						break;
+					}
+				}
+				
+				iter.remove();
+			}
+
+			@Override
+			public ListIterator<O> iterator() {
+				LinkedList<O> objects = null;
+				
+				for(Map map : list) {
+					if(map.key == current) {
+						objects = map.objects;
+						break;
+					}
+				}
+				
+				if(objects == null) {
+					Map map = new Map(current);
+					list.iterator().insert(map);
+				}
+				
+				return objects.iterator();
+			}
+		};
 	}
 
-	private static class MapIterator<K, O> implements ListIterator<K>, ListIterable<O> {
-		private ListIterator<Map<K, O>> iter;
-		private Map<K, O> current = null;
-		
-		private MapIterator(ListIterable<Map<K, O>> iterable) {
-			iter = iterable.iterator();
-		}
-
-		@Override
-		public boolean hasNext() {
-			return iter.hasNext();
-		}
-
-		@Override
-		public K next() {
-			current = iter.next();
-			return current.key;
-		}
-
-		@Override
-		public void remove() {
-			iter.remove();
-		}
-
-		@Override
-		public void insert(K key) {
-			iter.insert(new Map<K, O>(key));
-		}
-
-		@Override
-		public ListIterator<O> iterator() {
-			return current.objects.iterator();
-		}
-	}
-
-	private static class Map<K, O> {
-		private K key;
+	private class Map {
+		private P key;
 		private LinkedList<O> objects;
 
-		private Map(K key) {
+		private Map(P key) {
 			this.key = key;
 			this.objects = new LinkedList<O>();
 		}
