@@ -1,5 +1,5 @@
 import java.util.Iterator;
 
-public interface MapIterator<P, O> extends Iterator<P>, Iterable<O> {
-	 
+public interface MapIterator<P, O> extends Iterator<P> {
+	 public ListIterator<O> iterator();
 }
