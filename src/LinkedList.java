@@ -1,8 +1,7 @@
 
-public class LinkedList<C> implements ListIterable<C> {
+public class LinkedList<C> implements Iterable<C>{
 	private Node first;
 
-	@Override
 	public ListIterator<C> iterator() {
 		return new ListIterator<C>() {
 			private Node prev = null;
