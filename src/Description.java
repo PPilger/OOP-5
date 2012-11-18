@@ -6,9 +6,16 @@
  */
 public class Description implements Shorter<Description> {
 	
+	//Invariante: "text" darf nicht NULL sein
 	private String text;
 	
-	//Defniert einen Text
+	/**
+	 * Defniert einen Text.
+	 * 
+	 * Vorbedingung: text darf nicht NULL sein.
+	 * 
+	 * @param text
+	 */
 	public Description(String text) {
 		this.text = text;
 	}

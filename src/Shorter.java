@@ -9,5 +9,14 @@
  * 		Beschreibt ein beliebiges Objekt - generischer Typ
  */
 public interface Shorter<P> {
+	/**
+	 * NOTE: Vergleicht zwei Objekte miteinander
+	 * 
+	 * Vorbedingung: other darf nicht NULL sein.
+	 * 
+	 * @param other
+	 * @return
+	 * 		TRUE, wenn other kleiner ist als das derzeitige Objekt
+	 */
 	public boolean shorter(P other);
 }
