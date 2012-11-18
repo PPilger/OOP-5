@@ -8,7 +8,7 @@ public class Description implements Shorter<Description> {
 	}
 	
 	/**
-	 * NOTE: Vergleicht die LŠngen der Text.
+	 * NOTE: Vergleicht die Laengen der Texte.
 	 * 
 	 * @Override
 	 */
