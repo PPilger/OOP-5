@@ -1,16 +1,42 @@
 import java.util.NoSuchElementException;
 
+/**
+ * Note: Die Implementierung einer verketteten Liste.
+ * 
+ * @author Peter Pilgerstorfer
+ * 
+ * @param <C>
+ *            Der Typ der in der Liste gespeicherten Elemente.
+ */
 public class LinkedList<C> implements Iterable<C> {
-	private Node first;
+	private Node first; // Note: der Anfangsknoten, oder null (bei leerer Liste)
 
+	/**
+	 * Note: Liefert einen neuen ListIterator ueber den Elemente abgefragt,
+	 * eingefuegt oder geloescht werden koennen.
+	 */
+	@Override
 	public ListIterator<C> iterator() {
 		return new ListIterator<C>() {
+			// Invariante: prev, cur und next zeigen auf ein Element der Liste
+			// oder auf null
+
+			// Note: Zeigt auf das Element vor dem zuletzt ausgelesenen.
+			// Note: Ausnahme: Nach dem Entfernen eines Elements gilt (prev ==
+			// cur)
 			private Node prev = null;
+
+			// Note: Zeigt auf das zuletzt ausgelesene Element.
+			// Invariante: Wenn cur != null ist, gilt cur.next == next.
+			// Invariante: Anderenfalls ist next das erste Element.
 			private Node cur = null;
+
+			// Note: zeigt auf das naechste Element dass ausgelesen wird (oder
+			// null am Listenende).
 			private Node next = first;
 
 			/**
-			 * Returns true if this list iterator has more elements.
+			 * @returns liefert true, wenn der Iterator weitere Elemente hat
 			 */
 			@Override
 			public boolean hasNext() {
@@ -18,10 +44,10 @@ public class LinkedList<C> implements Iterable<C> {
 			}
 
 			/**
-			 * Returns the next element in the list.
+			 * Note: Liefert das naechste Element der Liste.
 			 * 
 			 * @throws NoSuchElementException
-			 *             if no more elements are available
+			 *             wenn keine weiteren Elemente verfuegbar sind
 			 */
 			@Override
 			public C next() {
@@ -37,27 +63,42 @@ public class LinkedList<C> implements Iterable<C> {
 			}
 
 			/**
-			 * Removes from the list the last element that was returned by next.
-			 * If remove is called after add, the inserted value will be
-			 * removed. This call can only be made once per call to next or add.
+			 * Note: Entfernt das Element das zuletzt mit next() ausgelesen
+			 * wurde. Wenn remove() nach add() aufgerufen wird, wird das
+			 * hinzugefuegte Element entfernt. remove() kann nur einmal nach
+			 * einem Aufruf von next() oder add() aufgerufen werden.
 			 * 
 			 * @throws IllegalStateException
-			 *             next has not been called
+			 *             Es wurden weder next() noch add() vorher aufgerufen,
+			 *             oder removed wurde mehr als einmal nach dem letzten
+			 *             Aufruf von next() oder add() aufgerufen.
 			 */
+			// Nachbedingung: Nach dem Entfernen zeigen prev und cur auf das
+			// Element vor next.
+			// Nachbedingung: next bleibt unveraendert.
 			@Override
 			public void remove() {
-				if (cur == null) {
+				// Zusicherung: falls das naechste Element das erste ist, gilt:
+				// cur, prev == null
+				if (cur == prev) {
 					throw new IllegalStateException();
 				}
 
-				prev.next = next;
+				if (prev == null) {
+					// Note: das erste Element wird entfernt
+					first = next;
+				} else {
+					prev.next = next;
+				}
+
 				cur = prev;
 			}
 
 			/**
-			 * Inserts the specified element into the list. The element is
-			 * inserted immediately before the next element that would be
-			 * returned by next, if any.
+			 * Fuegt das angegebene Element in die Liste ein. Das Element wird
+			 * unmittelbar vor dem naechsten Element, das von next()
+			 * zurueckgegeben wird, eingefuegt. Wenn es kein naechstes Element
+			 * gibt, wird an das Ende der Liste angehaengt.
 			 */
 			@Override
 			public void add(C value) {
@@ -77,6 +118,12 @@ public class LinkedList<C> implements Iterable<C> {
 		};
 	}
 
+	/**
+	 * Note: Ein Knoten der Liste
+	 * 
+	 * @author Peter Pilgerstorfer
+	 * 
+	 */
 	private class Node {
 		private C value;
 		private Node next;

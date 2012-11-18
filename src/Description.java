@@ -26,6 +26,8 @@ public class Description implements Shorter<Description> {
 	 * 		 der Text vom derzeitigen Objekt, dann wird
 	 * 		 TRUE zurueckgegeben.
 	 * 
+	 * Vorbedingung: other darf nicht NULL sein.
+	 * 
 	 * @Override
 	 */
 	public boolean shorter(Description other) {
