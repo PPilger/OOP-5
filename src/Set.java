@@ -8,7 +8,7 @@ public class Set<P> implements Iterable<P> {
 			return false;
 		}
 
-		list.iterator().insert(element);
+		list.iterator().add(element);
 		return true;
 	}
 
@@ -37,7 +37,7 @@ public class Set<P> implements Iterable<P> {
 			ListIterator<P> iter = super.list.iterator();
 			while (iter.hasNext() && element.shorter(iter.next())) {
 			}
-			iter.insert(element);
+			iter.add(element);
 			return true;
 		}
 	}

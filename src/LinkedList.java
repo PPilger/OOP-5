@@ -1,51 +1,82 @@
+import java.util.NoSuchElementException;
 
-public class LinkedList<C> implements Iterable<C>{
+public class LinkedList<C> implements Iterable<C> {
 	private Node first;
 
 	public ListIterator<C> iterator() {
 		return new ListIterator<C>() {
 			private Node prev = null;
-			private Node pos = first;
+			private Node cur = null;
+			private Node next = first;
 
+			/**
+			 * Returns true if this list iterator has more elements.
+			 */
 			@Override
 			public boolean hasNext() {
-				return pos != null;
+				return next != null;
 			}
 
+			/**
+			 * Returns the next element in the list.
+			 * 
+			 * @throws NoSuchElementException
+			 *             if no more elements are available
+			 */
 			@Override
 			public C next() {
-				C nextVal = pos.value;
-				
-				prev = pos;
-				pos = pos.next;
-				
-				return nextVal;
+				if (next == null) {
+					throw new NoSuchElementException();
+				}
+
+				prev = cur;
+				cur = next;
+				next = next.next;
+
+				return cur.value;
 			}
 
+			/**
+			 * Removes from the list the last element that was returned by next.
+			 * If remove is called after add, the inserted value will be
+			 * removed. This call can only be made once per call to next or add.
+			 * 
+			 * @throws IllegalStateException
+			 *             next has not been called
+			 */
 			@Override
 			public void remove() {
-				prev.next = pos.next;
-				pos.next = null;
-				
-				pos = prev.next;
+				if (cur == null) {
+					throw new IllegalStateException();
+				}
+
+				prev.next = next;
+				cur = prev;
 			}
 
-			public void insert(C value) {
+			/**
+			 * Inserts the specified element into the list. The element is
+			 * inserted immediately before the next element that would be
+			 * returned by next, if any.
+			 */
+			@Override
+			public void add(C value) {
 				Node newNode = new Node(value);
 
-				newNode.next = pos;
+				newNode.next = next;
 
-				if (prev == null) {
+				if (cur == null) {
 					first = newNode;
 				} else {
-					prev.next = newNode;
+					cur.next = newNode;
 				}
-				
-				prev = newNode;
+
+				prev = cur;
+				cur = newNode;
 			}
 		};
 	}
-	
+
 	private class Node {
 		private C value;
 		private Node next;

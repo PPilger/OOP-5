@@ -47,7 +47,7 @@ public class OrderedMap<P extends Shorter<P>, O> extends Set.OrderedSet<P> {
 				
 				if(objects == null) {
 					Map map = new Map(current);
-					list.iterator().insert(map);
+					list.iterator().add(map);
 				}
 				
 				return objects.iterator();
