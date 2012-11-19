@@ -5,8 +5,6 @@ import java.util.Iterator;
  * eingefuegt und entfernt werden.
  * 
  * @author Peter Pilgerstorfer
- * 
- * @param <T>
  */
 public interface ListIterator<T> extends Iterator<T> {
 	/**

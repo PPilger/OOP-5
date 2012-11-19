@@ -9,10 +9,13 @@ import java.util.Iterator;
  *            Typ der gespeicherten Elemente.
  */
 public class Set<P> implements Iterable<P> {
+	//Invariante: list enthaelt keine Elemente gleich null
 	private LinkedList<P> list = new LinkedList<P>();
 
 	/**
 	 * Note: Ueberprueft, ob ein Element in die Menge eingefuegt werden kann.
+	 * Note: null kann nicht eingefuegt werden. Ein Element das bereits
+	 * vorhanden ist kann ebensowenig eingefuegt werden.
 	 * 
 	 * @return true, wenn das Element eingefuegt werden kann, false
 	 *         anderenfalls.
@@ -56,10 +59,11 @@ public class Set<P> implements Iterable<P> {
 	 * @author Peter Pilgerstorfer
 	 */
 	public static class OrderedSet<P extends Shorter<P>> extends Set<P> {
-		//Invariante: super.list ist sortiert
-		
+		// Invariante: super.list ist sortiert
+
 		/**
-		 * Note: Fuegt das Element in die Menge ein, sodass die Sortierung erhalten bleibt.
+		 * Note: Fuegt das Element in die Menge ein, sodass die Sortierung
+		 * erhalten bleibt.
 		 * 
 		 * @return true, wenn das Element eingefuegt werden kann, false
 		 *         anderenfalls.
@@ -68,7 +72,7 @@ public class Set<P> implements Iterable<P> {
 		public boolean insert(P element) {
 			ListIterator<P> iter;
 			int index;
-			
+
 			if (!super.canInsert(element)) {
 				return false;
 			}
@@ -79,15 +83,15 @@ public class Set<P> implements Iterable<P> {
 			while (iter.hasNext() && iter.next().shorter(element)) {
 				index++;
 			}
-			
+
 			// Note: Zur Einfuegestelle navigieren
 			iter = super.list.iterator();
-			for(int i = 0; i < index; i++) {
+			for (int i = 0; i < index; i++) {
 				iter.next();
 			}
-			
+
 			iter.add(element);
-			
+
 			return true;
 		}
 	}
