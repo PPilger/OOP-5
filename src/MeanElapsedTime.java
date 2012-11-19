@@ -4,15 +4,24 @@ public class MeanElapsedTime extends ElapsedTime {
 
 	Set<Double> meassurement = new Set<Double>();
 
-	// @Override
+	@Override
 	public int count() {
 		Iterator<Double> iti = meassurement.iterator();
 		int cnt = 0;
-		while(iti.hasNext()) {
+		while (iti.hasNext()) {
 			iti.next();
 			cnt++;
 		}
 		return cnt;
+	}
+
+	@Override
+	protected double getTime() {
+		double ret = 0;
+		for (Double db : meassurement) {
+			ret += db;
+		}
+		return ret / (double) count();
 	}
 
 	public void addMeassurement(double meassurement) {
@@ -24,20 +33,12 @@ public class MeanElapsedTime extends ElapsedTime {
 		double ret = 0;
 
 		while (iti.hasNext()) {
-			Double cur = iti.next();
+			double cur = iti.next();
 			if (ret < cur) {
 				ret = cur;
 			}
 		}
 
 		return ret;
-	}
-
-	protected double getTime() {
-		double ret = 0;
-		for (Double db : meassurement) {
-			ret += db;
-		}
-		return ret / (double) count();
 	}
 }

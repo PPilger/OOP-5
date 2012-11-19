@@ -1,4 +1,3 @@
-
 public class CompositeTime extends ElapsedTime {
 
 	private Double[] times;
@@ -12,7 +11,8 @@ public class CompositeTime extends ElapsedTime {
 		return times.length;
 	}
 
-	public double getTime() {
+	@Override
+	protected double getTime() {
 		double ret = 0;
 		for (Double db : times) {
 			ret += db;
@@ -23,8 +23,9 @@ public class CompositeTime extends ElapsedTime {
 	public Double shortestTime() {
 		Double ret = Double.POSITIVE_INFINITY;
 		for (Double db : times) {
-			if (db < ret)
+			if (db < ret) {
 				ret = db;
+			}
 		}
 		return ret;
 	}
