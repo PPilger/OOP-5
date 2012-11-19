@@ -1,53 +1,43 @@
-package src;
+import java.util.Iterator;
 
-public class MeanElapsedTime extends ElapsedTime{
+public class MeanElapsedTime extends ElapsedTime {
 
-	public MeanElapsedTime(){
-		
-	}
-	
 	Set<Double> meassurement = new Set<Double>();
-	
-	//@Override
-	public boolean shorter(ElapsedTime other) {
-		if(this.getTime() < other.getTime())
-			return true;
-		return false;
-	}
 
-	//@Override
+	// @Override
 	public int count() {
+		Iterator<Double> iti = meassurement.iterator();
 		int cnt = 0;
-		for(Double db: meassurement)
-		{
+		while(iti.hasNext()) {
+			iti.next();
 			cnt++;
 		}
 		return cnt;
 	}
-	
-	public void addMeassurement(Double meassurement)
-	{
-		this.meassurement.add(meassurement);
+
+	public void addMeassurement(double meassurement) {
+		this.meassurement.insert(meassurement);
 	}
-	
-	public Double maxMeassurement()
-	{
-		Iterator<Double> iti = meassurement.Iterator();
-		Double ret;
-		while(iti.hasNext())
-		{
-			ret = iti.next();
+
+	public double maxMeassurement() {
+		Iterator<Double> iti = meassurement.iterator();
+		double ret = 0;
+
+		while (iti.hasNext()) {
+			Double cur = iti.next();
+			if (ret < cur) {
+				ret = cur;
+			}
 		}
+
 		return ret;
 	}
 
-	private Double getTime()
-	{
-		Double ret = 0.0;
-		for(Double db : meassurement)
-		{
+	protected double getTime() {
+		double ret = 0;
+		for (Double db : meassurement) {
 			ret += db;
 		}
-		return ret / (double)count();
+		return ret / (double) count();
 	}
 }
