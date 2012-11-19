@@ -12,7 +12,7 @@ import java.util.NoSuchElementException;
  * @param <O>
  *            Typ der zu jedem Objekt gespeicherten Elemente
  */
-public class OrderedMap<P extends Shorter<P>, O> extends Set.OrderedSet<P> {
+public class OrderedMap<P extends Shorter<? super P>, O> extends Set.OrderedSet<P> {
 	// Note: list enthaelt zu Eintraegen in der Superklasse eine Liste an
 	// Objekten.
 	private LinkedList<Mapping> map;

@@ -58,7 +58,7 @@ public class Set<P> implements Iterable<P> {
 	 * 
 	 * @author Peter Pilgerstorfer
 	 */
-	public static class OrderedSet<P extends Shorter<P>> extends Set<P> {
+	public static class OrderedSet<P extends Shorter<? super P>> extends Set<P> {
 		// Invariante: super.list ist sortiert
 
 		/**
