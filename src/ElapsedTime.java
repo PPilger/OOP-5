@@ -6,15 +6,11 @@
 public abstract class ElapsedTime implements Shorter<ElapsedTime> {
 	/**
 	 * Zaehlt Anzahl der Messwerte
-	 * 
-	 * @return Anzahl Nachbedingung: Zahl groeszer gleich 0
 	 */
 	public abstract int count();
 
 	/**
 	 * Dient zur ermittlung der fuer shorter relevanten Messwerte
-	 * 
-	 * @return
 	 */
 	protected abstract double getTime();
 

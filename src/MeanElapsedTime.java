@@ -14,7 +14,6 @@ public class MeanElapsedTime extends ElapsedTime {
 	@Override
 	/**
 	 * Zaehlt die enthaltenen Messwerte
-	 * Nachbedingung: gibt Zahl groeszer gleich 0 zurueck
 	 */
 	public int count() {
 		Iterator<Double> iti = meassurement.iterator();
@@ -29,7 +28,6 @@ public class MeanElapsedTime extends ElapsedTime {
 	@Override
 	/**
 	 * DIe Zeit ist fuer diesen Typ der Durchschnittswert aller gespeicherten Messwerte
-	 * Nachbedingung: gibt Zahl groeszer gleich 0 zurueck
 	 */
 	protected double getTime() {
 		double ret = 0;
@@ -51,10 +49,8 @@ public class MeanElapsedTime extends ElapsedTime {
 	}
 
 	/**
-	 * Gibt den hoechsten Messwert aus
-	 * 
-	 * @return Peak Nachbedingung: gibt Zahl groeszer 0 zurueck, gibt 0 zurueck
-	 *         falls keine Messwerte vorhanden sind.
+	 * Gibt den hoechsten Messwert aus, oder 0, falls keine Messwerte vorhanden
+	 * sind.
 	 */
 	public double maxMeassurement() {
 		Iterator<Double> iti = meassurement.iterator();

@@ -2,45 +2,70 @@ import java.util.Iterator;
 
 public class Test {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("Hello Java!");
-		CompositeTime ct2 = new CompositeTime(new Double[] { 12.6, 45.245,
-				16.344, 3.2 });
-		System.out.print(ct2.count());
+		test1();
+		test2();
+	}
 
-		Shorter<? super CompositeTime> s = new CompositeTime(
-				new Double[] { 0.0 });
+	private static void printTestHeader(int num, String description) {
+		System.out.println();
+		System.out.println();
+		System.out.println("Test " + num + ":");
+		System.out.println(description);
+	}
 
-		// Offizielle TEsts
-		// OrderedSet
-		Set.OrderedSet<Description> oset = new Set.OrderedSet<Description>();
-		oset.insert(new Description("Hoppala!"));
-		oset.insert(new Description("Die"));
-		oset.insert(new Description("Katz"));
-		oset.insert(new Description("ist da!"));
-		Iterator<Description> iti = oset.iterator();
-		while (iti.hasNext()) {
-			System.out.println(iti.next().toString());
-		}
-		System.out.println("Anzahl der Zeilen ?");
-		oset.insert(new Description("Abcdefg"));
+	private static void printSet(Set<Description> set, String description) {
+		int count = 0;
+
+		System.out.println();
+		System.out.println(description);
 		
+		for (Description elem : set) {
+			System.out.println(elem.toString());
+			count++;
+		}
+		
+		System.out.println("Anzahl der Zeilen: " + count);
+	}
+
+	private static void test1() {
+		Set.OrderedSet<Description> oset;
+		Iterator<Description> iti;
+		Description die = new Description("Die");
+		Description katz = new Description("Katz");
+
+		printTestHeader(1, "teste OrderedSet<Description>");
+
+		oset = new Set.OrderedSet<Description>();
+		oset.insert(new Description("Hoppala!"));
+		oset.insert(die);
+		oset.insert(katz);
+		oset.insert(new Description("ist da!"));
+		printSet(oset, "gefuelltes Set:");
+		
+		oset.insert(new Description("Abcdefg"));
+		printSet(oset, "gueltigen Eintrag 'Abcdefg' hinzufuegen:");
+
+		oset.insert(die);
+		printSet(oset, "bereits vorhandenen Eintrag 'Die' hinzufuegen (identisch):");
+
+		oset.insert(new Description("Die"));
+		printSet(oset, "bereits vorhandenen Eintrag 'Die' hinzufuegen (nicht identisch):");
+
 		iti = oset.iterator();
 		while (iti.hasNext()) {
 			Description tmp = iti.next();
-			if (tmp.equals("Katz")) {
+			if (tmp == katz) {
 				iti.remove();
-			} else {
-				System.out.println(tmp.toString());
 			}
 		}
-		System.out.println("Anzahl der Zeilen ?");
 
-		// OrderedMAp
+		printSet(oset, "vorhandenen Eintrag 'Katz' loeschen:");
+	}
+
+	private static void test2() {
+		printTestHeader(2, "teste OrderedMap<MeanElapsedTime, CompositeTime>");
+
 		OrderedMap<MeanElapsedTime, CompositeTime> omap = new OrderedMap<MeanElapsedTime, CompositeTime>();
 		MeanElapsedTime meat;
 		omap.insert(meat = new MeanElapsedTime());
@@ -49,29 +74,27 @@ public class Test {
 		meat.addMeassurement(64.8);
 		meat.addMeassurement(9.3);
 		MapIterator<MeanElapsedTime, CompositeTime> mapIter = omap.iterator();
-		CompositeTime ct;Iterator<CompositeTime> coIti;
-		while(mapIter.hasNext())
-		{
+		CompositeTime ct;
+		Iterator<CompositeTime> coIti;
+		while (mapIter.hasNext()) {
+			mapIter.next();
 			coIti = mapIter.iterator();
-			while(coIti.hasNext())
-			{
+			while (coIti.hasNext()) {
 				ct = coIti.next();
-				System.out.println(ct.count() + " gezaehlt, ShortestTime" + ct.shortestTime());
+				System.out.println(ct.count() + " gezaehlt, ShortestTime"
+						+ ct.shortestTime());
 			}
 		}
 		meat.addMeassurement(57.345);
 		mapIter = omap.iterator();
-		while(mapIter.hasNext())
-		{
+		while (mapIter.hasNext()) {
+			mapIter.next();
 			coIti = mapIter.iterator();
-			while(coIti.hasNext())
-			{
+			while (coIti.hasNext()) {
 				ct = coIti.next();
-				System.out.println(ct.count() + " gezaehlt, ShortestTime" + ct.shortestTime());
+				System.out.println(ct.count() + " gezaehlt, ShortestTime"
+						+ ct.shortestTime());
 			}
 		}
-		
-
 	}
-
 }

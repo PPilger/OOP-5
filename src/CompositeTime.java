@@ -32,7 +32,6 @@ public class CompositeTime extends ElapsedTime {
 	@Override
 	/**
 	 * Gibt die Zeit fuer diesen Typ zurueck, der die Summe aller Messwerte ist.
-	 * Nachbedingung: Wert groeszer gleich 0 wird zurueckgegeben, 0 sofern keine Messwerte vorhanden sind.
 	 */
 	protected double getTime() {
 		double ret = 0;
@@ -43,10 +42,10 @@ public class CompositeTime extends ElapsedTime {
 	}
 
 	/**
-	 * Gibt den kleinsten Messwert zurueck
+	 * Gibt den kleinsten Messwert zurueck, oder Positive_Infinity sofern keine
+	 * Messwerte vorhanden sind
 	 * 
-	 * @return kleinster Messwert Nachbedingung: gibt den kleinsten Messwert
-	 *         zurueck, Positive_Infinity sofern keine Messwerte vorhanden sind
+	 * @return kleinster Messwert
 	 */
 	public Double shortestTime() {
 		Double ret = Double.POSITIVE_INFINITY;
