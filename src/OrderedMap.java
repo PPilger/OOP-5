@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 public class OrderedMap<P extends Shorter<? super P>, O> extends Set.OrderedSet<P> {
 	// Note: list enthaelt zu Eintraegen in der Superklasse eine Liste an
 	// Objekten.
-	private LinkedList<Mapping> map;
+	private LinkedList<Mapping> map = new LinkedList<Mapping>();
 
 	@Override
 	public MapIterator<P, O> iterator() {
@@ -87,6 +87,8 @@ public class OrderedMap<P extends Shorter<? super P>, O> extends Set.OrderedSet<
 				if (objects == null) {
 					Mapping mapping = new Mapping(current);
 					map.iterator().add(mapping);
+					
+					objects = mapping.objects;
 				}
 
 				return objects.iterator();
