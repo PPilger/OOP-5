@@ -26,16 +26,56 @@ public class Test {
 		set.insert(die);
 		set.insert(katz);
 		set.insert(new Description("ist da!"));
+		
+		/**
+		 * gefuelltes Set:
+		 * Die
+		 * Katz
+		 * ist da!
+		 * Hoppala!
+		 * Anzahl der Zeilen: 4
+		 */
 		printDescription(set, "gefuelltes Set:");
 
 		set.insert(new Description("Abcdefg"));
+		
+		/**
+		 * gueltigen Eintrag 'Abcdefg' hinzufuegen:
+		 * Die
+		 * Katz
+		 * ist da!
+		 * Abcdefg
+		 * Hoppala!
+		 * Anzahl der Zeilen: 5
+		 */
 		printDescription(set, "gueltigen Eintrag 'Abcdefg' hinzufuegen:");
 
 		set.insert(die);
+		
+		/**
+		 * bereits vorhandenen Eintrag 'Die' hinzufuegen (identisch):
+		 * Die
+		 * Katz
+		 * Abcdefg
+		 * ist da!
+		 * Hoppala!
+		 * Anzahl der Zeilen: 5
+		 */
 		printDescription(set,
 				"bereits vorhandenen Eintrag 'Die' hinzufuegen (identisch):");
 
 		set.insert(new Description("Die"));
+		
+		/**
+		 * bereits vorhandenen Eintrag 'Die' hinzufuegen (nicht identisch):
+		 * Die
+		 * Die
+		 * Katz
+		 * ist da!
+		 * Abcdefg
+		 * Hoppala!
+		 * Anzahl der Zeilen: 6
+		 */
 		printDescription(set,
 				"bereits vorhandenen Eintrag 'Die' hinzufuegen (nicht identisch):");
 
@@ -47,6 +87,15 @@ public class Test {
 			}
 		}
 
+		/**
+		 * vorhandenen Eintrag 'Katz' loeschen:
+		 * Die
+		 * Die
+		 * ist da!
+		 * Abcdefg
+		 * Hoppala!
+		 * Anzahl der Zeilen: 5
+		 */
 		printDescription(set, "vorhandenen Eintrag 'Katz' loeschen:");
 	}
 
@@ -57,6 +106,12 @@ public class Test {
 
 		printTestHeader(2, "teste OrderedMap<MeanElapsedTime, CompositeTime>");
 
+		/**
+		 * gefuellte Map:
+		 * maxMeasurement: 12.0, shortestTimes: [2.4, 5.3]
+		 * maxMeasurement: 64.8, shortestTimes: [1.7, 3.4, 1.7, 5.1]
+		 * maxMeasurement: 44.4, shortestTimes: [9.3, 0.5]
+		 */
 		printMap(map, "gefuellte Map:");
 
 		mapIter = map.iterator();
@@ -64,17 +119,47 @@ public class Test {
 		objIter = mapIter.iterator();
 
 		objIter.add(new CompositeTime(new Double[] { 3., 1., 2., 4. }));
+		
+		/**
+		 * fuege neue CompositeTime zur ersten MeanElapsedTime hinzu (am Anfang):
+		 * maxMeasurement: 12.0, shortestTimes: [1.0, 2.4, 5.3]
+		 * maxMeasurement: 64.8, shortestTimes: [1.7, 3.4, 1.7, 5.1]
+		 * maxMeasurement: 44.4, shortestTimes: [9.3, 0.5]
+		 */
 		printMap(map,
 				"fuege neue CompositeTime zur ersten MeanElapsedTime hinzu (am Anfang):");
 
 		objIter.next();
 		objIter.remove();
+		
+		/**
+		 * loesche CompositeTime nach der neu eingefuegten:
+		 * maxMeasurement: 12.0, shortestTimes: [1.0, 5.3]
+		 * maxMeasurement: 64.8, shortestTimes: [1.7, 3.4, 1.7, 5.1]
+		 * maxMeasurement: 44.4, shortestTimes: [9.3, 0.5]
+		 */
 		printMap(map, "loesche CompositeTime nach der neu eingefuegten:");
 
 		map.insert(meanTime = new MeanElapsedTime());
+		
+		/**
+		 * fuege eine neue, leere MeanElapsedTime zu Map hinzu:
+		 * maxMeasurement: 0.0, shortestTimes: []
+		 * maxMeasurement: 12.0, shortestTimes: [1.0, 5.3]
+		 * maxMeasurement: 64.8, shortestTimes: [1.7, 3.4, 1.7, 5.1]
+		 * maxMeasurement: 44.4, shortestTimes: [9.3, 0.5]
+		 */
 		printMap(map, "fuege eine neue, leere MeanElapsedTime zu Map hinzu:");
 
 		meanTime.addMeassurement(30);
+		
+		/**
+		 * fuege einen Messwert zur neuen MeanElapsedTime hinzu:
+		 * maxMeasurement: 12.0, shortestTimes: [1.0, 5.3]
+		 * maxMeasurement: 30.0, shortestTimes: []
+		 * maxMeasurement: 64.8, shortestTimes: [1.7, 3.4, 1.7, 5.1]
+		 * maxMeasurement: 44.4, shortestTimes: [9.3, 0.5]
+		 */
 		printMap(map, "fuege einen Messwert zur neuen MeanElapsedTime hinzu:");
 	}
 
@@ -83,10 +168,24 @@ public class Test {
 
 		printTestHeader(3, "teste OrderedSet<MeanElapsedTime>");
 
+		/**
+		 * OrderedMap:
+		 * maxMeasurement: 12.0, shortestTimes: [1.0, 5.3]
+		 * maxMeasurement: 30.0, shortestTimes: []
+		 * maxMeasurement: 64.8, shortestTimes: [1.7, 3.4, 1.7, 5.1]
+		 * maxMeasurement: 44.4, shortestTimes: [9.3, 0.5]
+		 */
 		printMap(map, "OrderedMap:");
 
 		Set.OrderedSet<MeanElapsedTime> orderedSet = map;
 
+		/**
+		 * OrderedMap auf OrderedSet gecastet:
+		 * 12.0
+		 * 30.0
+		 * 64.8
+		 * 44.4
+		 */
 		printMeanElapsedTime(orderedSet, "OrderedMap auf OrderedSet gecastet:");
 
 		meanTime = new MeanElapsedTime();
@@ -108,6 +207,16 @@ public class Test {
 		meanTime.addMeassurement(7.8);
 		orderedSet.insert(meanTime);
 
+		/**
+		 * nach hinzufuegen 3 neuer MeanElapsedTime-Objekte:
+		 * 8.8
+		 * 8.4
+		 * 7.8
+		 * 12.0
+		 * 30.0
+		 * 64.8
+		 * 44.4
+		 */
 		printMeanElapsedTime(orderedSet,
 				"nach hinzufuegen 3 neuer MeanElapsedTime-Objekte:");
 	}
@@ -131,6 +240,25 @@ public class Test {
 			}
 		}
 
+		
+		/**
+		 * alle ElapsedTime-Objekte aus Testfall 2 und 3:
+		 * 4
+		 * 3
+		 * 3
+		 * 1
+		 * 3
+		 * 1
+		 * 4
+		 * 3
+		 * 3
+		 * 2
+		 * 2
+		 * 4
+		 * 1
+		 * 3
+		 * 3
+		 */
 		printElapsedTimeSet(set,
 				"alle ElapsedTime-Objekte aus Testfall 2 und 3:");
 
