@@ -5,6 +5,7 @@ public class Test {
 	public static void main(String[] args) {
 		test1();
 		test2();
+		test4();
 	}
 
 	private static void printTestHeader(int num, String description) {
@@ -181,5 +182,39 @@ public class Test {
 		
 		meanTime.addMeassurement(30);
 		print(map, "fuege einen Messwert zur neuen MeanElapsedTime hinzu:");
+	}
+	
+	private static void test4() {
+		
+		Set.OrderedSet<ElapsedTime> ose4 = new Set.OrderedSet<ElapsedTime>();
+		OrderedMap<MeanElapsedTime, CompositeTime> mt4 = new OrderedMap<MeanElapsedTime, CompositeTime>();
+		fill(mt4);
+		MapIterator<MeanElapsedTime, CompositeTime> meat = mt4.iterator();
+		while(meat.hasNext())
+		{
+			MeanElapsedTime et = meat.next();
+			ose4.insert(et);
+			Iterator<CompositeTime> citi = meat.iterator();
+			while(citi.hasNext())
+			{
+				ose4.insert(citi.next());
+			}
+		}
+		printTestHeader(4, "Koeglers Test");
+		print(ose4);
+		
+		
+		
+		
+	}
+	
+	private static void print(Set.OrderedSet<ElapsedTime> orset)
+	{
+		Iterator<ElapsedTime> iti = orset.iterator();
+		
+		while(iti.hasNext())
+		{
+			System.out.println(iti.next().count());
+		}
 	}
 }
