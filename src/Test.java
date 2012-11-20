@@ -156,6 +156,7 @@ public class Test {
 		OrderedMap<MeanElapsedTime, CompositeTime> map;
 		MapIterator<MeanElapsedTime, CompositeTime> mapIter;
 		ListIterator<CompositeTime> objIter;
+		MeanElapsedTime meanTime;
 
 		printTestHeader(2, "teste OrderedMap<MeanElapsedTime, CompositeTime>");
 
@@ -175,7 +176,10 @@ public class Test {
 		objIter.remove();
 		print(map, "loesche CompositeTime nach der neu eingefuegten:");
 
-		map.insert(new MeanElapsedTime());
+		map.insert(meanTime = new MeanElapsedTime());
 		print(map, "fuege eine neue, leere MeanElapsedTime zu Map hinzu:");
+		
+		meanTime.addMeassurement(30);
+		print(map, "fuege einen Messwert zur neuen MeanElapsedTime hinzu:");
 	}
 }
