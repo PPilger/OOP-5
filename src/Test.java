@@ -5,6 +5,7 @@ public class Test {
 	public static void main(String[] args) {
 		test1();
 		test2();
+		test3();
 	}
 
 	private static void printTestHeader(int num, String description) {
@@ -181,5 +182,46 @@ public class Test {
 		
 		meanTime.addMeassurement(30);
 		print(map, "fuege einen Messwert zur neuen MeanElapsedTime hinzu:");
+	}
+	
+	private static void test3() {
+		OrderedMap<MeanElapsedTime, CompositeTime> map;
+		MapIterator<MeanElapsedTime, CompositeTime> mapIter;
+		ListIterator<CompositeTime> objIter;
+		MeanElapsedTime meanTime;
+
+		printTestHeader(3, "teste OrderedSet<MeanElapsedTime>");
+
+		map = new OrderedMap<MeanElapsedTime, CompositeTime>();
+		fill(map);
+		print(map, "gefuellte Map:");
+		
+		Set.OrderedSet<MeanElapsedTime> orderedSet = map;
+		Iterator<MeanElapsedTime> setIter = orderedSet.iterator();
+		
+		meanTime = new MeanElapsedTime();
+		meanTime.addMeassurement(4.2);
+		meanTime.addMeassurement(2.1);
+		meanTime.addMeassurement(8.4);
+		
+		orderedSet.insert(meanTime);
+		
+		meanTime = new MeanElapsedTime();
+		meanTime.addMeassurement(1.1);
+		meanTime.addMeassurement(2.2);
+		meanTime.addMeassurement(4.4);
+		meanTime.addMeassurement(8.8);
+		
+		orderedSet.insert(meanTime);
+		
+		meanTime = new MeanElapsedTime();
+		meanTime.addMeassurement(2.4);
+		meanTime.addMeassurement(4.7);
+		meanTime.addMeassurement(7.8);
+		
+		orderedSet.insert(meanTime);
+		
+		
+		
 	}
 }
