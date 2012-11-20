@@ -221,6 +221,7 @@ public class Test {
 		meanTime.addMeassurement(7.8);
 		
 		orderedSet.insert(meanTime);
+	}
 		
 	private static void test4() {
 		
