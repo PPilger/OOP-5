@@ -11,10 +11,10 @@ public class MeanElapsedTime extends ElapsedTime {
 
 	Set<Double> meassurement = new Set<Double>();
 
-	@Override
 	/**
 	 * Zaehlt die enthaltenen Messwerte
 	 */
+	@Override
 	public int count() {
 		Iterator<Double> iti = meassurement.iterator();
 		int cnt = 0;
@@ -25,12 +25,18 @@ public class MeanElapsedTime extends ElapsedTime {
 		return cnt;
 	}
 
-	@Override
 	/**
-	 * DIe Zeit ist fuer diesen Typ der Durchschnittswert aller gespeicherten Messwerte
+	 * Die Zeit ist fuer diesen Typ der Durchschnittswert aller gespeicherten
+	 * Messwerte oder 0, wenn keine Messwerte gespeichert sind.
 	 */
+	@Override
 	protected double getTime() {
 		double ret = 0;
+
+		if (count() == 0) {
+			return 0;
+		}
+
 		for (Double db : meassurement) {
 			ret += db;
 		}

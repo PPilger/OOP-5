@@ -6,13 +6,14 @@
  * 
  */
 public class CompositeTime extends ElapsedTime {
-	//Invariante: times ist nicht null und enthaelt nur Werte ungleich null
+	// Invariante: times ist nicht null und enthaelt nur Werte ungleich null
 	private Double[] times;
 
 	/**
 	 * Erstellt neues Objekt mit den folgenden Messwerten
 	 * 
-	 * Vorbedingung: Parameter times ist nicht null und enthaelt nur Werte ungleich null
+	 * Vorbedingung: Parameter times ist nicht null und enthaelt nur Werte
+	 * ungleich null
 	 * 
 	 * @param times
 	 *            Messwerte
@@ -31,10 +32,10 @@ public class CompositeTime extends ElapsedTime {
 		return times.length;
 	}
 
-	@Override
 	/**
 	 * Gibt die Zeit fuer diesen Typ zurueck, der die Summe aller Messwerte ist.
 	 */
+	@Override
 	protected double getTime() {
 		double ret = 0;
 		for (Double db : times) {

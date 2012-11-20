@@ -1,3 +1,4 @@
+import java.util.Comparator;
 import java.util.Iterator;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Iterator;
  *            Typ der gespeicherten Elemente.
  */
 public class Set<P> implements Iterable<P> {
-	//Invariante: list enthaelt keine Elemente gleich null
+	// Invariante: list enthaelt keine Elemente gleich null
 	private LinkedList<P> list = new LinkedList<P>();
 
 	/**
@@ -59,40 +60,28 @@ public class Set<P> implements Iterable<P> {
 	 * @author Peter Pilgerstorfer
 	 */
 	public static class OrderedSet<P extends Shorter<? super P>> extends Set<P> {
-		// Invariante: super.list ist sortiert
 
 		/**
-		 * Note: Fuegt das Element in die Menge ein, sodass die Sortierung
-		 * erhalten bleibt.
-		 * 
-		 * @return true, wenn das Element eingefuegt werden kann, false
-		 *         anderenfalls.
+		 * Note: gibt einen Iterator zurueck, der ueber die sortierten Elemente
+		 * iteriert.
 		 */
+		// Nachbedingung: list ist sortiert
 		@Override
-		public boolean insert(P element) {
-			ListIterator<P> iter;
-			int index;
+		public Iterator<P> iterator() {
+			super.list.sort(new Comparator<P>() {
 
-			if (!super.canInsert(element)) {
-				return false;
-			}
-
-			// Note: Einfuegeindex bestimmen
-			iter = super.list.iterator();
-			index = 0;
-			while (iter.hasNext() && iter.next().shorter(element)) {
-				index++;
-			}
-
-			// Note: Zur Einfuegestelle navigieren
-			iter = super.list.iterator();
-			for (int i = 0; i < index; i++) {
-				iter.next();
-			}
-
-			iter.add(element);
-
-			return true;
+				@Override
+				public int compare(P o1, P o2) {
+					if (o1.shorter(o2)) {
+						return -1;
+					} else if (o2.shorter(o1)) {
+						return 1;
+					} else {
+						return 0;
+					}
+				}
+			});
+			return super.iterator();
 		}
 	}
 }

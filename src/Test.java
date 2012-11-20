@@ -117,32 +117,31 @@ public class Test {
 	}
 
 	private static void test1() {
-		Set.OrderedSet<Description> oset;
+		Set.OrderedSet<Description> set;
 		Iterator<Description> iti;
 		Description die = new Description("Die");
 		Description katz = new Description("Katz");
 
 		printTestHeader(1, "teste OrderedSet<Description>");
 
-		oset = new Set.OrderedSet<Description>();
-		oset.insert(new Description("Hoppala!"));
-		oset.insert(die);
-		oset.insert(katz);
-		oset.insert(new Description("ist da!"));
-		print(oset, "gefuelltes Set:");
+		set = new Set.OrderedSet<Description>();
+		set.insert(new Description("Hoppala!"));
+		set.insert(die);
+		set.insert(katz);
+		set.insert(new Description("ist da!"));
+		print(set, "gefuelltes Set:");
 
-		oset.insert(new Description("Abcdefg"));
-		print(oset, "gueltigen Eintrag 'Abcdefg' hinzufuegen:");
+		set.insert(new Description("Abcdefg"));
+		print(set, "gueltigen Eintrag 'Abcdefg' hinzufuegen:");
 
-		oset.insert(die);
-		print(oset,
-				"bereits vorhandenen Eintrag 'Die' hinzufuegen (identisch):");
+		set.insert(die);
+		print(set, "bereits vorhandenen Eintrag 'Die' hinzufuegen (identisch):");
 
-		oset.insert(new Description("Die"));
-		print(oset,
+		set.insert(new Description("Die"));
+		print(set,
 				"bereits vorhandenen Eintrag 'Die' hinzufuegen (nicht identisch):");
 
-		iti = oset.iterator();
+		iti = set.iterator();
 		while (iti.hasNext()) {
 			Description tmp = iti.next();
 			if (tmp == katz) {
@@ -150,7 +149,7 @@ public class Test {
 			}
 		}
 
-		print(oset, "vorhandenen Eintrag 'Katz' loeschen:");
+		print(set, "vorhandenen Eintrag 'Katz' loeschen:");
 	}
 
 	private static void test2() {
@@ -169,12 +168,13 @@ public class Test {
 		objIter = mapIter.iterator();
 
 		objIter.add(new CompositeTime(new Double[] { 3., 1., 2., 4. }));
-		print(map, "fuege neue CompositeTime zur ersten MeanElapsedTime hinzu (am Anfang):");
+		print(map,
+				"fuege neue CompositeTime zur ersten MeanElapsedTime hinzu (am Anfang):");
 
 		objIter.next();
 		objIter.remove();
 		print(map, "loesche CompositeTime nach der neu eingefuegten:");
-		
+
 		map.insert(new MeanElapsedTime());
 		print(map, "fuege eine neue, leere MeanElapsedTime zu Map hinzu:");
 	}

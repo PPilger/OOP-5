@@ -1,3 +1,5 @@
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -10,6 +12,46 @@ import java.util.NoSuchElementException;
  */
 public class LinkedList<C> implements Iterable<C> {
 	private Node first; // Note: der Anfangsknoten, oder null (bei leerer Liste)
+
+	public void sort(Comparator<C> comp) {
+		first = sort(first, comp);
+	}
+
+	private Node sort(Node start, Comparator<C> comp) {
+		if (first == null) {
+			return null;
+		}
+
+		LinkedList<C> sorted = new LinkedList<C>();
+		C smallest = first.value;
+
+		// finde das kleinste Element
+		for (Node cur = first; cur != null; cur = cur.next) {
+			if (comp.compare(smallest, cur.value) > 0) {
+				smallest = cur.value;
+			}
+		}
+
+		// kopiere alle kleinsten Elemente in die sortierte Liste und entferne sie aus der aktuellen
+		Iterator<C> iter = iterator();
+		while(iter.hasNext()) {
+			C cur = iter.next();
+			
+			if (comp.compare(smallest, cur) == 0) {
+				iter.remove();
+				sorted.iterator().add(cur);
+			}
+		}
+		
+		// sortiere den Rest der aktuellen Liste und haenge diesen ebenfalls an die sortierte Liste an
+		Node lastSorted = sorted.first;
+		while (lastSorted.next != null) {
+			lastSorted = lastSorted.next;
+		}
+		lastSorted.next = sort(first, comp);
+		
+		return sorted.first;
+	}
 
 	/**
 	 * Note: Liefert einen neuen ListIterator ueber den Elemente abgefragt,
