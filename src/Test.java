@@ -14,18 +14,106 @@ public class Test {
 		System.out.println(description);
 	}
 
-	private static void printSet(Set<Description> set, String description) {
+	private static void print(Set<Description> set, String description) {
+		Iterator<Description> iter = set.iterator();
 		int count = 0;
 
 		System.out.println();
 		System.out.println(description);
-		
-		for (Description elem : set) {
-			System.out.println(elem.toString());
+
+		while (iter.hasNext()) {
+			System.out.println(iter.next().toString());
 			count++;
 		}
-		
+
 		System.out.println("Anzahl der Zeilen: " + count);
+	}
+
+	private static void print(OrderedMap<MeanElapsedTime, CompositeTime> map,
+			String description) {
+		MapIterator<MeanElapsedTime, CompositeTime> mapIter = map.iterator();
+
+		System.out.println();
+		System.out.println(description);
+
+		while (mapIter.hasNext()) {
+			MeanElapsedTime meanTime = mapIter.next();
+			Iterator<CompositeTime> objIter = mapIter.iterator();
+
+			System.out.print("maxMeasurement: " + meanTime.maxMeassurement()
+					+ ", shortestTimes: [");
+
+			if (objIter.hasNext()) {
+				CompositeTime compTime = objIter.next();
+				System.out.print(compTime.shortestTime());
+			}
+			while (objIter.hasNext()) {
+				CompositeTime compTime = objIter.next();
+				System.out.print(", " + compTime.shortestTime());
+			}
+
+			System.out.println("]");
+		}
+	}
+
+	private static void fill(OrderedMap<MeanElapsedTime, CompositeTime> map) {
+		MapIterator<MeanElapsedTime, CompositeTime> mapIter;
+		MeanElapsedTime meanTime;
+
+		// 1. Eintrag
+		meanTime = new MeanElapsedTime();
+		meanTime.addMeassurement(17.3);
+		meanTime.addMeassurement(64.8);
+		meanTime.addMeassurement(19.3);
+		map.insert(meanTime);
+
+		mapIter = map.iterator();
+		while (mapIter.hasNext()) {
+			MeanElapsedTime cur = mapIter.next();
+			if (cur == meanTime) {
+				ListIterator<CompositeTime> compIter = mapIter.iterator();
+				compIter.add(new CompositeTime(new Double[] { 3.2, 5.7, 1.7 }));
+				compIter.add(new CompositeTime(new Double[] { 8.3, 3.4, 2.0 }));
+				compIter.add(new CompositeTime(new Double[] { 5.1, 9.3, 2.5 }));
+			}
+		}
+
+		// 2. Eintrag
+		meanTime = new MeanElapsedTime();
+		meanTime.addMeassurement(8.3);
+		meanTime.addMeassurement(6.5);
+		meanTime.addMeassurement(12.0);
+		map.insert(meanTime);
+
+		mapIter = map.iterator();
+		while (mapIter.hasNext()) {
+			MeanElapsedTime cur = mapIter.next();
+			if (cur == meanTime) {
+				ListIterator<CompositeTime> compIter = mapIter.iterator();
+				compIter.add(new CompositeTime(new Double[] { 8.5, 2.4, 7.1 }));
+				compIter.add(new CompositeTime(new Double[] { 5.3, 3.3, 0.2 }));
+				compIter.add(new CompositeTime(new Double[] { 3.9, 1.7, 5.2 }));
+			}
+		}
+
+		// 3. Eintrag
+		meanTime = new MeanElapsedTime();
+		meanTime.addMeassurement(44.4);
+		meanTime.addMeassurement(23.8);
+		meanTime.addMeassurement(44.3);
+		map.insert(meanTime);
+
+		mapIter = map.iterator();
+		while (mapIter.hasNext()) {
+			MeanElapsedTime cur = mapIter.next();
+			if (cur == meanTime) {
+				ListIterator<CompositeTime> compIter = mapIter.iterator();
+				compIter.add(new CompositeTime(new Double[] { 9.3, 4.2, 3.2 }));
+				compIter.add(new CompositeTime(new Double[] { 1.3, 5.8, 7.1 }));
+				compIter.add(new CompositeTime(new Double[] { 2.7, 3.2, 5.5 }));
+			}
+		}
+
 	}
 
 	private static void test1() {
@@ -41,16 +129,18 @@ public class Test {
 		oset.insert(die);
 		oset.insert(katz);
 		oset.insert(new Description("ist da!"));
-		printSet(oset, "gefuelltes Set:");
-		
+		print(oset, "gefuelltes Set:");
+
 		oset.insert(new Description("Abcdefg"));
-		printSet(oset, "gueltigen Eintrag 'Abcdefg' hinzufuegen:");
+		print(oset, "gueltigen Eintrag 'Abcdefg' hinzufuegen:");
 
 		oset.insert(die);
-		printSet(oset, "bereits vorhandenen Eintrag 'Die' hinzufuegen (identisch):");
+		print(oset,
+				"bereits vorhandenen Eintrag 'Die' hinzufuegen (identisch):");
 
 		oset.insert(new Description("Die"));
-		printSet(oset, "bereits vorhandenen Eintrag 'Die' hinzufuegen (nicht identisch):");
+		print(oset,
+				"bereits vorhandenen Eintrag 'Die' hinzufuegen (nicht identisch):");
 
 		iti = oset.iterator();
 		while (iti.hasNext()) {
@@ -60,41 +150,32 @@ public class Test {
 			}
 		}
 
-		printSet(oset, "vorhandenen Eintrag 'Katz' loeschen:");
+		print(oset, "vorhandenen Eintrag 'Katz' loeschen:");
 	}
 
 	private static void test2() {
+		OrderedMap<MeanElapsedTime, CompositeTime> map;
+		MapIterator<MeanElapsedTime, CompositeTime> mapIter;
+		ListIterator<CompositeTime> objIter;
+
 		printTestHeader(2, "teste OrderedMap<MeanElapsedTime, CompositeTime>");
 
-		OrderedMap<MeanElapsedTime, CompositeTime> omap = new OrderedMap<MeanElapsedTime, CompositeTime>();
-		MeanElapsedTime meat;
-		omap.insert(meat = new MeanElapsedTime());
-		meat.addMeassurement(17.3);
-		meat.addMeassurement(0.0045);
-		meat.addMeassurement(64.8);
-		meat.addMeassurement(9.3);
-		MapIterator<MeanElapsedTime, CompositeTime> mapIter = omap.iterator();
-		CompositeTime ct;
-		Iterator<CompositeTime> coIti;
-		while (mapIter.hasNext()) {
-			mapIter.next();
-			coIti = mapIter.iterator();
-			while (coIti.hasNext()) {
-				ct = coIti.next();
-				System.out.println(ct.count() + " gezaehlt, ShortestTime"
-						+ ct.shortestTime());
-			}
-		}
-		meat.addMeassurement(57.345);
-		mapIter = omap.iterator();
-		while (mapIter.hasNext()) {
-			mapIter.next();
-			coIti = mapIter.iterator();
-			while (coIti.hasNext()) {
-				ct = coIti.next();
-				System.out.println(ct.count() + " gezaehlt, ShortestTime"
-						+ ct.shortestTime());
-			}
-		}
+		map = new OrderedMap<MeanElapsedTime, CompositeTime>();
+		fill(map);
+		print(map, "gefuellte Map:");
+
+		mapIter = map.iterator();
+		mapIter.next();
+		objIter = mapIter.iterator();
+
+		objIter.add(new CompositeTime(new Double[] { 3., 1., 2., 4. }));
+		print(map, "fuege neue CompositeTime zur ersten MeanElapsedTime hinzu (am Anfang):");
+
+		objIter.next();
+		objIter.remove();
+		print(map, "loesche CompositeTime nach der neu eingefuegten:");
+		
+		map.insert(new MeanElapsedTime());
+		print(map, "fuege eine neue, leere MeanElapsedTime zu Map hinzu:");
 	}
 }

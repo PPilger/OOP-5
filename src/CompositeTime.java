@@ -6,11 +6,13 @@
  * 
  */
 public class CompositeTime extends ElapsedTime {
-
+	//Invariante: times ist nicht null und enthaelt nur Werte ungleich null
 	private Double[] times;
 
 	/**
 	 * Erstellt neues Objekt mit den folgenden Messwerten
+	 * 
+	 * Vorbedingung: Parameter times ist nicht null und enthaelt nur Werte ungleich null
 	 * 
 	 * @param times
 	 *            Messwerte
@@ -42,8 +44,8 @@ public class CompositeTime extends ElapsedTime {
 	}
 
 	/**
-	 * Gibt den kleinsten Messwert zurueck, oder Positive_Infinity sofern keine
-	 * Messwerte vorhanden sind
+	 * Gibt den kleinsten Messwert zurueck oder +Infinity, wenn keine Messwerte
+	 * vorhanden sind.
 	 * 
 	 * @return kleinster Messwert
 	 */
